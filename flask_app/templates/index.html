@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Books {% endblock %}</h1>
+    {% for book in books %}
+        <div class='book'>
+            <h3>#{{ book[0] }} - {{ book[1] }} BY {{ book[2] }}</h3>
+            <i><p>({{ book[3] }} pages)</p></i>
+            <p class='review'>{{ book[4] }}</p>
+            <i><p>Added {{ book[5] }}</p></i>
+            <a href="{{ url_for('update', book_id=book[0]) }}">Update</a>
+            <a href="{{ url_for('delete', book_id=book[0]) }}">Delete</a>
+        </div>
+    {% endfor %}
+{% endblock %}
