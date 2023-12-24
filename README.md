@@ -167,7 +167,7 @@ git push origin feature/new-feature
 
 Create a pull request.
 
-
+You can also use this link for [How To Use a PostgreSQL Database in a Flask Application](https://www.digitalocean.com/community/tutorials/how-to-use-a-postgresql-database-in-a-flask-application#step-1-creating-the-postgresql-database-and-user) 
 
 
 
