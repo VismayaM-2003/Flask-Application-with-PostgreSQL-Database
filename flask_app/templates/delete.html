@@ -1,30 +1,55 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>{% block title %} Delete Book {% endblock %}</h1>
-<div class='book'>
-  <h3>#{{ book[0] }} - {{ book[1] }} BY {{ book[2] }}</h3>
-  <i>
-    <p>({{ book[3] }} pages)</p>
-  </i>
-  <p class='review'>{{ book[4] }}</p>
-  <i>
-    <p>Added {{ book[5] }}</p>
-  </i>
-</div>
-<form method="PUT" action="{{ url_for('delete', book_id=book[0]) }}">
-  <p>
-    Are you sure you want to delete this book?
-  </p>
-  <p>
-    <label for="confirmation">Type "yes" to confirm:</label>
-    <input type="text" name="confirmation" required>
-  </p>
-  
-  <p>
-            <!-- <button type="submit">Delete</button> -->
-            <button class="deleteButton" data-book-id="{{ book[0] }}">Delete Book</button>
-            <a href="{{ url_for('index') }}">Cancel</a>
-        </p>
-</form>
+      <h1>{% block title %} Delete Book {% endblock %}</h1>
+      <div class='book'>
+          <h3>#{{ book[0] }} - {{ book[1] }} BY {{ book[2] }}</h3>
+          <i>
+          <p>({{ book[3] }} pages)</p>
+          </i>
+          <p class='review'>{{ book[4] }}</p>
+          <i>
+          <p>Added {{ book[5] }}</p>
+          </i>
+      </div>
+      <form method="POST" action="{{ url_for('delete', book_id=book[0]) }}">
+        <input type="hidden" name="_method" value="DELETE">
+          <p>
+            Are you sure you want to delete this book?
+          </p>
+          <p>
+            <label for="confirmation">Type "yes" to confirm:</label>
+            <input type="text" name="confirmation" required>
+          </p>
+          
+          <p>
+                    <!-- <button type="submit">Delete</button> -->
+                    <button class="deleteButton" data-book-id="{{ book[0] }}">Delete Book</button>
+                    <a href="{{ url_for('index') }}">Cancel</a>
+                </p>
+        </form>
+        <script>
+          document.getElementById('deleteButton').addEventListener('click', function() {
+              // Send a DELETE request using Fetch API
+              fetch('{{ url_for("delete", book_id=book[0]) }}', {
+                  method: 'DELETE',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  //body: JSON.stringify({}),  // You can include a JSON body if needed
+              })
+              .then(response => {
+                  if (response.ok) {
+                      // Redirect to the index page on successful deletion
+                      window.location.href = '{{ url_for("index") }}';
+                  } else {
+                      // Handle error cases as needed
+                      console.error('Error deleting book:', response.status);
+                  }
+              })
+              .catch(error => {
+                  console.error('Fetch error:', error);
+              });
+          });
+      </script>
 {% endblock %}
